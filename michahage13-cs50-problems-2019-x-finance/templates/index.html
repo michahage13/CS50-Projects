@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>Symbol</td>
+                <td>Name</td>
+                <td>Shares</td>
+                <td>Price</td>
+                <td>Total</td>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td colspan="4"></td>
+                <td><b>{{ (totalvalue + cashtotal) | usd }}</b></td>
+            </tr>
+        </tfoot>
+        <tbody>
+            {% for stock in stocks %}
+            <tr>
+                <td>{{ stock.symbol }}</td>
+                <td>{{ stock.company}}</td>
+                <td>{{ stock["SUM(shares)"] }}</td>
+                <td>{{ stock.price | usd }}</td>
+                <td>${{ '%0.2f' | format(stock.price * stock["SUM(shares)"] | float) }}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td id="CASH">CASH</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="CASHTOTAL">{{ cashtotal | usd }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
